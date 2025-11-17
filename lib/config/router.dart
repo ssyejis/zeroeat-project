@@ -15,7 +15,9 @@ class ZeroEatRouter {
   static String get initialRoute => ZeroEatRoutes.home;
 
   static Route<dynamic>? onGenerateRoute(RouteSettings settings) {
-    switch (settings.name) {
+    // Allow deep links like '/productDetail?id=123' or '/productDetail/123'
+    final uri = settings.name != null ? Uri.parse(settings.name!) : null;
+    switch (uri?.path ?? settings.name) {
       case ZeroEatRoutes.home:
         return MaterialPageRoute<void>(
           builder: (_) => const HomePage(),
@@ -27,7 +29,25 @@ class ZeroEatRouter {
           settings: settings,
         );
       case ZeroEatRoutes.productDetail:
-        final product = settings.arguments;
+        // Try to get Product from arguments first (normal navigation)
+        var product = settings.arguments;
+
+        // If not provided via arguments, try to parse id from URL
+        if (product is! Product) {
+          final idFromQuery = uri?.queryParameters['id'];
+          final idFromPath = uri != null && uri.pathSegments.length > 1
+              ? uri.pathSegments[1]
+              : null;
+          final id = idFromQuery ?? idFromPath;
+          if (id != null) {
+            // Try to find product from in-memory dummy list
+            try {
+              product = productDummyList.firstWhere((p) => p.id == id);
+            } catch (_) {
+              product = null;
+            }
+          }
+        }
 
         if (product is! Product) {
           return MaterialPageRoute<void>(
@@ -36,7 +56,7 @@ class ZeroEatRouter {
           );
         }
         return MaterialPageRoute<void>(
-          builder: (_) => ProductDetailPage(product: product),
+          builder: (_) => ProductDetailPage(product: product as Product),
           settings: settings,
         );
       case ZeroEatRoutes.review:
@@ -56,8 +76,13 @@ class ZeroEatRouter {
           builder: (_) => ReviewForm(),
         );
       case ZeroEatRoutes.category:
+        // Allow selecting a category via arguments or query param
+        String? category;
+        if (settings.arguments is String) category = settings.arguments as String;
+        final catFromQuery = uri?.queryParameters['category'];
+        if (catFromQuery != null && catFromQuery.isNotEmpty) category = catFromQuery;
         return MaterialPageRoute<void>(
-          builder: (_) => const CategoryList(),
+          builder: (_) => CategoryList(selectedCategory: category),
         );
       default:
         return MaterialPageRoute<void>(
@@ -83,7 +108,7 @@ class _UnknownRoutePage extends StatelessWidget {
           children: [
             const Icon(Icons.error_outline, size: 48),
             const SizedBox(height: 16),
-            Text('No page defined for "$routeName"'),
+            Text('페이지 없음'),
           ],
         ),
       ),

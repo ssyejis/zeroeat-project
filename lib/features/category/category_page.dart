@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CategoryList extends StatefulWidget {
-  const CategoryList({super.key});
+  const CategoryList({super.key, this.selectedCategory});
+
+  final String? selectedCategory;
 
   @override
   State<CategoryList> createState() => _CategoryListState();
@@ -24,9 +26,15 @@ class _CategoryListState extends State<CategoryList>
   @override
   void initState() {
     super.initState();
+    int initialIndex = 0;
+    if (widget.selectedCategory != null) {
+      final idx = categories.indexOf(widget.selectedCategory!);
+      if (idx != -1) initialIndex = idx;
+    }
     _tabController = TabController(
       length: categories.length,
       vsync: this,
+      initialIndex: initialIndex,
     );
   }
 
@@ -55,11 +63,21 @@ class _CategoryListState extends State<CategoryList>
         ),
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TabBar(
-            isScrollable: true,
-            controller: _tabController,
-            tabs: categories.map((category) => Tab(text: category, height: 50,)).toList(),
+          Container(
+            alignment: Alignment.centerLeft,
+            child: TabBar(
+              isScrollable: true,
+              controller: _tabController,
+              padding: EdgeInsets.zero,
+              labelPadding: EdgeInsets.symmetric(horizontal: 12.0), // 왼쪽 여백 제거
+              indicatorPadding: EdgeInsets.zero,
+              indicatorColor: Colors.green,
+              labelColor: Colors.black,
+              unselectedLabelColor: const Color.fromARGB(255, 90, 90, 90),
+              tabs: categories.map((category) => Tab(text: category)).toList(),
+            ),
           ),
           Expanded(
             child: TabBarView(
@@ -67,7 +85,7 @@ class _CategoryListState extends State<CategoryList>
               children: categories.map((category) {
                 return Center(
                   child: Text(
-                    '$category 카테고리 페이지',
+                    '$category 카테고리 페이지 준비중',
                     style: const TextStyle(fontSize: 24),
                   ),
                 );

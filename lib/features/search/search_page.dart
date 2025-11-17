@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:zeroeat/models.dart';
+import 'package:zeroeat/config/routes.dart';
+
+enum SortMode { relevance, reviews, rating }
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -9,35 +13,30 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController _controller = TextEditingController();
+  final List<Product> topProducts = productDummyList;
+  
   String query = "";
-
-  // 더미 데이터
-  final List<Map<String, dynamic>> products = [
-    {
-      "name": "Hans Zero Lemonade",
-      "rating": 4.5,
-      "reviews": 47,
-      "tags": ["저칼로리", "무설탕", "비건"]
-    },
-    {
-      "name": "Mandann Zero Drink Ice",
-      "rating": 4.7,
-      "reviews": 133,
-      "tags": ["저칼로리", "무설탕", "키토"]
-    },
-    {
-      "name": "Korean Zero Cola",
-      "rating": 4.0,
-      "reviews": 84,
-      "tags": ["제로칼로리", "제로콜라"]
-    },
-  ];
+  SortMode _sort = SortMode.relevance;
 
   @override
   Widget build(BuildContext context) {
-    final results = products
-        .where((p) => p["name"].toString().toLowerCase().contains(query.toLowerCase()))
-        .toList();
+    // filter
+    final filtered = topProducts
+      .where((p) => p.name.toLowerCase().contains(query.toLowerCase()))
+      .toList();
+
+    // sort according to selected mode
+    if (_sort == SortMode.reviews) {
+      filtered.sort((a, b) {
+        final aCount = reviewDummyList.where((r) => r.productId == a.id).length;
+        final bCount = reviewDummyList.where((r) => r.productId == b.id).length;
+        return bCount.compareTo(aCount);
+      });
+    } else if (_sort == SortMode.rating) {
+      filtered.sort((a, b) => b.rating.compareTo(a.rating));
+    }
+
+    final results = filtered;
 
     return Scaffold(
       appBar: AppBar(
@@ -69,50 +68,89 @@ class _SearchPageState extends State<SearchPage> {
       ),
       body: Column(
         children: [
-          // 정렬 탭
-          Container(
-            color: Colors.grey[200],
-            height: 48,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: const [
-                Text("정확도"),
-                Text("리뷰 많은순"),
-                Text("별점 높은순"),
-              ],
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+            child: Align(
+              alignment: Alignment.topRight,
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton(
+                  value: _sort,
+                  items: [
+                    DropdownMenuItem(
+                      value: SortMode.relevance,
+                      child: Text('정확도'),
+                    ),
+                    DropdownMenuItem(
+                      value: SortMode.reviews,
+                      child: Text('리뷰 많은순'),
+                    ),
+                    DropdownMenuItem(
+                      value: SortMode.rating,
+                      child: Text('별점 높은순'),
+                    ),
+                  ],
+                  onChanged: (val) {
+                    if (val is SortMode) {
+                      setState(() => _sort = val);
+                    }
+                  },
+                  icon: const Icon(Icons.tune, size: 14,),
+                  style: const TextStyle(fontSize: 12),
+                  alignment: Alignment.centerRight,
+                ),
+              
+              ),
             ),
           ),
           Expanded(
             child: results.isEmpty
                 ? const Center(child: Text("검색 결과가 없습니다."))
-                : ListView.separated(
-                    itemCount: results.length,
-                    separatorBuilder: (_, __) => const Divider(height: 1),
-                    itemBuilder: (ctx, i) {
-                      final p = results[i];
-                      return ListTile(
-                        leading: const Icon(Icons.local_drink, color: Colors.green),
-                        title: Text(p["name"]),
-                        subtitle: Wrap(
-                          spacing: 6,
-                          children: (p["tags"] as List<String>)
-                              .map((t) => Chip(label: Text(t)))
-                              .toList(),
+                :
+                Padding(
+                        padding: EdgeInsets.fromLTRB(16, 8 , 16, 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('현재 많이 검색된 식품', style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold
+                      ),),
+                      const SizedBox(height: 4),
+                      Expanded(
+                        child: ListView.separated(
+                          itemCount: results.length,
+                          separatorBuilder: (_, __) => const Divider(height: 1),
+                          itemBuilder: (ctx, i) {
+                            final p = results[i];
+                            return ListTile(
+                              leading: const Icon(Icons.local_drink, color: Colors.green),
+                              title: Text(p.name),
+                              subtitle: Wrap(
+                                spacing: 6,
+                                children: p.tags
+                                    .map((t) => Text('#$t',
+                                        style: const TextStyle(
+                                            fontSize: 12, color: Colors.blue)))
+                                    .toList(),
+                              ),
+                              trailing: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Icon(Icons.star, color: Colors.orange),
+                                  Text(p.rating.toString()),
+                                  Text(' (${reviewDummyList.where((r) => r.productId == p.id).length})'),
+                                ],
+                              ),
+                              onTap: () {
+                                Navigator.of(context).pushNamed('${ZeroEatRoutes.productDetail}?id=${p.id}');
+                              },
+                            );
+                          },
                         ),
-                        trailing: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(Icons.star, color: Colors.orange),
-                            Text("${p["rating"]}"),
-                            Text(" (${p["reviews"]})"),
-                          ],
-                        ),
-                        onTap: () {
-                          // TODO: 제품 상세 화면으로 이동
-                        },
-                      );
-                    },
+                      ),
+                    ],
                   ),
+                )
           ),
         ],
       ),

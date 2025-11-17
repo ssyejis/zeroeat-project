@@ -20,9 +20,6 @@ class ProductDetailPage extends StatefulWidget {
 class _ProductDetailPageState extends State<ProductDetailPage> {
   bool isFavorite = false;
   late final List<Review> _reviews;
-  late final double? _avgTaste;
-  late final double? _avgSatiety;
-  late final double? _avgRepurchase;
 
   @override
   void initState() {
@@ -30,29 +27,16 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     _reviews = reviewDummyList
         .where((review) => review.productId == widget.product.id)
         .toList();
-    _avgTaste = _calculateAverage((review) => review.taste.toDouble());
-    _avgSatiety = _calculateAverage((review) => review.satiety.toDouble());
-    _avgRepurchase =
-        _calculateAverage((review) => review.repurchase.toDouble());
   }
 
   void _toggleFavorite() {
     setState(() => isFavorite = !isFavorite);
   }
 
-  double? _calculateAverage(double Function(Review) selector) {
-    if (_reviews.isEmpty) return null;
-    final total =
-        _reviews.fold<double>(0, (sum, review) => sum + selector(review));
-    return total / _reviews.length;
-  }
-
-  String _formatScore(double? score) =>
-      score != null ? score.toStringAsFixed(1) : '-';
-
   @override
   Widget build(BuildContext context) {
-    final nutrition = widget.product.nutrition;
+    final product = widget.product;
+    final nutrition = product.nutrition;
 
     return Scaffold(
       backgroundColor: const Color(0xFFFDF6EC),
@@ -74,14 +58,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           Padding(
             padding: const EdgeInsets.only(right: 8),
             child: GestureDetector(
-              onTap: () =>
-                  DynamicLinkService.shareProduct(widget.product.id),
+              onTap: () => DynamicLinkService.shareProduct(product.id),
               child: const Icon(Icons.share, color: Color(0xFF3E2F1C)),
             ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(right: 16),
-            child: Icon(Icons.notifications, color: Color(0xFF3E2F1C)),
           ),
         ],
       ),
@@ -92,7 +71,6 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-        
                 width: double.infinity,
                 height: 200,
                 decoration: BoxDecoration(
@@ -102,8 +80,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
                   child: Image.network(
-                    widget.product.imageUrl,
-                    fit: BoxFit.cover,
+                    product.imageUrl,
+                    fit: BoxFit.contain,
                     errorBuilder: (_, __, ___) => Icon(
                       Icons.local_cafe,
                       size: 80,
@@ -115,9 +93,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               const SizedBox(height: 20),
               Row(
                 children: [
-                  const Expanded(
+                  Expanded(
                     child: Text(
-                      '제로 콜라',
+                      product.name,
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold
@@ -134,16 +112,16 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ],
               ),
               Text(
-                widget.product.brand,
+                product.brand,
                 style: TextStyle(fontSize: 14, color: Color(0xFF7B4F2A)),
               ),
               const SizedBox(height: 10),
               Row(
                 children: [
-                  ...ratingStars(widget.product.rating, 20),
+                  ...ratingStars(product.rating, 20),
                   const SizedBox(width: 8),
                   Text(
-                    '${widget.product.rating.toStringAsFixed(1)} 리뷰 ${widget.product.reviewCount}개',
+                    '${product.rating.toStringAsFixed(1)} 리뷰 ${_reviews.length}개',
                     style: const TextStyle(color: Color(0xFF3E2F1C)),
                   ),
                 ],
@@ -172,43 +150,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                       style: const TextStyle(color: Color(0xFF2F5D50)),
                     ),
                     const SizedBox(height: 8),
-                    const Text(
-                      '특징 태그',
-                      style: TextStyle(color: Color(0xFF7B4F2A)),
-                    ),
                     Wrap(
                       spacing: 8,
-                      children: widget.product.tags
+                      children: product.tags
                           .map((tag) => Text('#$tag', style: TextStyle(fontSize: 12),))
                           .toList(),
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(height: 20),
-              const Text(
-                '리뷰 요약',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF3E2F1C),
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '맛: ${_formatScore(_avgTaste)}',
-                    style: const TextStyle(color: Color(0xFF2F5D50)),
-                  ),
-                  Text(
-                    '포만감: ${_formatScore(_avgSatiety)}',
-                    style: const TextStyle(color: Color(0xFF2F5D50)),
-                  ),
-                  Text(
-                    '재구매 의사: ${_formatScore(_avgRepurchase)}',
-                    style: const TextStyle(color: Color(0xFF2F5D50)),
-                  ),
-                ],
               ),
               const SizedBox(height: 20),
               Row(
@@ -226,7 +175,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   const SizedBox(width: 8),
         
                   Text (
-                    '${widget.product.reviewCount}',
+                    '${_reviews.length}개',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
@@ -235,11 +184,12 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   ),
         
                   const Spacer(),
-        
+
+                  if (_reviews.length > 2) 
                   TextButton(
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(
-                        builder: (_) => ReviewPage(product: widget.product)
+                        builder: (_) => ReviewPage(product: product)
                       ));
                     },
                     child: const Text('리뷰 전체보기')
@@ -250,7 +200,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
               ListView.separated(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: 2,
+                itemCount: _reviews.length > 1 ? 2 : _reviews.length,
                 itemBuilder: (_, index) {
                   final review = _reviews[index];
                   return reviewTile(

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:zeroeat/config/theme.dart';
 
 class ReviewForm extends StatefulWidget {
   const ReviewForm({super.key});
@@ -12,7 +11,6 @@ class _ReviewFormState extends State<ReviewForm> {
   final _formKey = GlobalKey<FormState>();
   int _currentRating = 0;
 
-  @override
   void _updateRating(int rating) {
     setState(() {
       _currentRating = rating;
