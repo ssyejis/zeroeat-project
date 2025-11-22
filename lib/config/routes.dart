@@ -5,4 +5,6 @@ class ZeroEatRoutes {
   static const review = '/review';
   static const reviewForm = '/reviewForm';
   static const category = '/category';
+  static const favorite = '/favorite';
+  static const myPage = '/myPage';
 }

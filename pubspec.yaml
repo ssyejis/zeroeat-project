@@ -41,6 +41,7 @@ dependencies:
   intl: ^0.19.0
   firebase_dynamic_links: ^5.5.7
   url_launcher: ^6.2.5
+  image_picker: ^1.0.7 
   # assets should be declared under the `flutter:` section below, not under
   # dependencies. See the `flutter:` section further down in this file.
 

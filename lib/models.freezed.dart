@@ -21,7 +21,7 @@ mixin _$Product {
   String get brand => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
   double get rating => throw _privateConstructorUsedError;
-  Nutrition get nutrition => throw _privateConstructorUsedError;
+  Ingredient get ingredient => throw _privateConstructorUsedError;
   List<String> get tags => throw _privateConstructorUsedError;
 
   /// Create a copy of Product
@@ -41,10 +41,10 @@ abstract class $ProductCopyWith<$Res> {
       String brand,
       String imageUrl,
       double rating,
-      Nutrition nutrition,
+      Ingredient ingredient,
       List<String> tags});
 
-  $NutritionCopyWith<$Res> get nutrition;
+  $IngredientCopyWith<$Res> get ingredient;
 }
 
 /// @nodoc
@@ -67,7 +67,7 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
     Object? brand = null,
     Object? imageUrl = null,
     Object? rating = null,
-    Object? nutrition = null,
+    Object? ingredient = null,
     Object? tags = null,
   }) {
     return _then(_value.copyWith(
@@ -91,10 +91,10 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as double,
-      nutrition: null == nutrition
-          ? _value.nutrition
-          : nutrition // ignore: cast_nullable_to_non_nullable
-              as Nutrition,
+      ingredient: null == ingredient
+          ? _value.ingredient
+          : ingredient // ignore: cast_nullable_to_non_nullable
+              as Ingredient,
       tags: null == tags
           ? _value.tags
           : tags // ignore: cast_nullable_to_non_nullable
@@ -106,9 +106,9 @@ class _$ProductCopyWithImpl<$Res, $Val extends Product>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $NutritionCopyWith<$Res> get nutrition {
-    return $NutritionCopyWith<$Res>(_value.nutrition, (value) {
-      return _then(_value.copyWith(nutrition: value) as $Val);
+  $IngredientCopyWith<$Res> get ingredient {
+    return $IngredientCopyWith<$Res>(_value.ingredient, (value) {
+      return _then(_value.copyWith(ingredient: value) as $Val);
     });
   }
 }
@@ -126,11 +126,11 @@ abstract class _$$ProductImplCopyWith<$Res> implements $ProductCopyWith<$Res> {
       String brand,
       String imageUrl,
       double rating,
-      Nutrition nutrition,
+      Ingredient ingredient,
       List<String> tags});
 
   @override
-  $NutritionCopyWith<$Res> get nutrition;
+  $IngredientCopyWith<$Res> get ingredient;
 }
 
 /// @nodoc
@@ -151,7 +151,7 @@ class __$$ProductImplCopyWithImpl<$Res>
     Object? brand = null,
     Object? imageUrl = null,
     Object? rating = null,
-    Object? nutrition = null,
+    Object? ingredient = null,
     Object? tags = null,
   }) {
     return _then(_$ProductImpl(
@@ -175,10 +175,10 @@ class __$$ProductImplCopyWithImpl<$Res>
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
               as double,
-      nutrition: null == nutrition
-          ? _value.nutrition
-          : nutrition // ignore: cast_nullable_to_non_nullable
-              as Nutrition,
+      ingredient: null == ingredient
+          ? _value.ingredient
+          : ingredient // ignore: cast_nullable_to_non_nullable
+              as Ingredient,
       tags: null == tags
           ? _value._tags
           : tags // ignore: cast_nullable_to_non_nullable
@@ -196,7 +196,7 @@ class _$ProductImpl implements _Product {
       required this.brand,
       required this.imageUrl,
       required this.rating,
-      required this.nutrition,
+      required this.ingredient,
       required final List<String> tags})
       : _tags = tags;
 
@@ -211,7 +211,7 @@ class _$ProductImpl implements _Product {
   @override
   final double rating;
   @override
-  final Nutrition nutrition;
+  final Ingredient ingredient;
   final List<String> _tags;
   @override
   List<String> get tags {
@@ -222,7 +222,7 @@ class _$ProductImpl implements _Product {
 
   @override
   String toString() {
-    return 'Product(id: $id, name: $name, brand: $brand, imageUrl: $imageUrl, rating: $rating, nutrition: $nutrition, tags: $tags)';
+    return 'Product(id: $id, name: $name, brand: $brand, imageUrl: $imageUrl, rating: $rating, ingredient: $ingredient, tags: $tags)';
   }
 
   @override
@@ -236,21 +236,14 @@ class _$ProductImpl implements _Product {
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
             (identical(other.rating, rating) || other.rating == rating) &&
-            (identical(other.nutrition, nutrition) ||
-                other.nutrition == nutrition) &&
+            (identical(other.ingredient, ingredient) ||
+                other.ingredient == ingredient) &&
             const DeepCollectionEquality().equals(other._tags, _tags));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      name,
-      brand,
-      imageUrl,
-      rating,
-      nutrition,
-      const DeepCollectionEquality().hash(_tags));
+  int get hashCode => Object.hash(runtimeType, id, name, brand, imageUrl,
+      rating, ingredient, const DeepCollectionEquality().hash(_tags));
 
   /// Create a copy of Product
   /// with the given fields replaced by the non-null parameter values.
@@ -268,7 +261,7 @@ abstract class _Product implements Product {
       required final String brand,
       required final String imageUrl,
       required final double rating,
-      required final Nutrition nutrition,
+      required final Ingredient ingredient,
       required final List<String> tags}) = _$ProductImpl;
 
   @override
@@ -282,7 +275,7 @@ abstract class _Product implements Product {
   @override
   double get rating;
   @override
-  Nutrition get nutrition;
+  Ingredient get ingredient;
   @override
   List<String> get tags;
 
@@ -295,40 +288,47 @@ abstract class _Product implements Product {
 }
 
 /// @nodoc
-mixin _$Nutrition {
+mixin _$Ingredient {
   int get kcal => throw _privateConstructorUsedError;
   double get sugarG => throw _privateConstructorUsedError;
   double get sodiumMg => throw _privateConstructorUsedError;
   double get fatG => throw _privateConstructorUsedError;
   double get proteinG => throw _privateConstructorUsedError;
+  List<String> get warningIngredients => throw _privateConstructorUsedError;
 
-  /// Create a copy of Nutrition
+  /// Create a copy of Ingredient
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $NutritionCopyWith<Nutrition> get copyWith =>
+  $IngredientCopyWith<Ingredient> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $NutritionCopyWith<$Res> {
-  factory $NutritionCopyWith(Nutrition value, $Res Function(Nutrition) then) =
-      _$NutritionCopyWithImpl<$Res, Nutrition>;
+abstract class $IngredientCopyWith<$Res> {
+  factory $IngredientCopyWith(
+          Ingredient value, $Res Function(Ingredient) then) =
+      _$IngredientCopyWithImpl<$Res, Ingredient>;
   @useResult
   $Res call(
-      {int kcal, double sugarG, double sodiumMg, double fatG, double proteinG});
+      {int kcal,
+      double sugarG,
+      double sodiumMg,
+      double fatG,
+      double proteinG,
+      List<String> warningIngredients});
 }
 
 /// @nodoc
-class _$NutritionCopyWithImpl<$Res, $Val extends Nutrition>
-    implements $NutritionCopyWith<$Res> {
-  _$NutritionCopyWithImpl(this._value, this._then);
+class _$IngredientCopyWithImpl<$Res, $Val extends Ingredient>
+    implements $IngredientCopyWith<$Res> {
+  _$IngredientCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Nutrition
+  /// Create a copy of Ingredient
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -338,6 +338,7 @@ class _$NutritionCopyWithImpl<$Res, $Val extends Nutrition>
     Object? sodiumMg = null,
     Object? fatG = null,
     Object? proteinG = null,
+    Object? warningIngredients = null,
   }) {
     return _then(_value.copyWith(
       kcal: null == kcal
@@ -360,31 +361,40 @@ class _$NutritionCopyWithImpl<$Res, $Val extends Nutrition>
           ? _value.proteinG
           : proteinG // ignore: cast_nullable_to_non_nullable
               as double,
+      warningIngredients: null == warningIngredients
+          ? _value.warningIngredients
+          : warningIngredients // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$NutritionImplCopyWith<$Res>
-    implements $NutritionCopyWith<$Res> {
-  factory _$$NutritionImplCopyWith(
-          _$NutritionImpl value, $Res Function(_$NutritionImpl) then) =
-      __$$NutritionImplCopyWithImpl<$Res>;
+abstract class _$$IngredientImplCopyWith<$Res>
+    implements $IngredientCopyWith<$Res> {
+  factory _$$IngredientImplCopyWith(
+          _$IngredientImpl value, $Res Function(_$IngredientImpl) then) =
+      __$$IngredientImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
-      {int kcal, double sugarG, double sodiumMg, double fatG, double proteinG});
+      {int kcal,
+      double sugarG,
+      double sodiumMg,
+      double fatG,
+      double proteinG,
+      List<String> warningIngredients});
 }
 
 /// @nodoc
-class __$$NutritionImplCopyWithImpl<$Res>
-    extends _$NutritionCopyWithImpl<$Res, _$NutritionImpl>
-    implements _$$NutritionImplCopyWith<$Res> {
-  __$$NutritionImplCopyWithImpl(
-      _$NutritionImpl _value, $Res Function(_$NutritionImpl) _then)
+class __$$IngredientImplCopyWithImpl<$Res>
+    extends _$IngredientCopyWithImpl<$Res, _$IngredientImpl>
+    implements _$$IngredientImplCopyWith<$Res> {
+  __$$IngredientImplCopyWithImpl(
+      _$IngredientImpl _value, $Res Function(_$IngredientImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Nutrition
+  /// Create a copy of Ingredient
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -394,8 +404,9 @@ class __$$NutritionImplCopyWithImpl<$Res>
     Object? sodiumMg = null,
     Object? fatG = null,
     Object? proteinG = null,
+    Object? warningIngredients = null,
   }) {
-    return _then(_$NutritionImpl(
+    return _then(_$IngredientImpl(
       kcal: null == kcal
           ? _value.kcal
           : kcal // ignore: cast_nullable_to_non_nullable
@@ -416,19 +427,25 @@ class __$$NutritionImplCopyWithImpl<$Res>
           ? _value.proteinG
           : proteinG // ignore: cast_nullable_to_non_nullable
               as double,
+      warningIngredients: null == warningIngredients
+          ? _value._warningIngredients
+          : warningIngredients // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
 
 /// @nodoc
 
-class _$NutritionImpl implements _Nutrition {
-  const _$NutritionImpl(
+class _$IngredientImpl implements _Ingredient {
+  const _$IngredientImpl(
       {required this.kcal,
       required this.sugarG,
       required this.sodiumMg,
       required this.fatG,
-      required this.proteinG});
+      required this.proteinG,
+      required final List<String> warningIngredients})
+      : _warningIngredients = warningIngredients;
 
   @override
   final int kcal;
@@ -440,46 +457,57 @@ class _$NutritionImpl implements _Nutrition {
   final double fatG;
   @override
   final double proteinG;
+  final List<String> _warningIngredients;
+  @override
+  List<String> get warningIngredients {
+    if (_warningIngredients is EqualUnmodifiableListView)
+      return _warningIngredients;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_warningIngredients);
+  }
 
   @override
   String toString() {
-    return 'Nutrition(kcal: $kcal, sugarG: $sugarG, sodiumMg: $sodiumMg, fatG: $fatG, proteinG: $proteinG)';
+    return 'Ingredient(kcal: $kcal, sugarG: $sugarG, sodiumMg: $sodiumMg, fatG: $fatG, proteinG: $proteinG, warningIngredients: $warningIngredients)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$NutritionImpl &&
+            other is _$IngredientImpl &&
             (identical(other.kcal, kcal) || other.kcal == kcal) &&
             (identical(other.sugarG, sugarG) || other.sugarG == sugarG) &&
             (identical(other.sodiumMg, sodiumMg) ||
                 other.sodiumMg == sodiumMg) &&
             (identical(other.fatG, fatG) || other.fatG == fatG) &&
             (identical(other.proteinG, proteinG) ||
-                other.proteinG == proteinG));
+                other.proteinG == proteinG) &&
+            const DeepCollectionEquality()
+                .equals(other._warningIngredients, _warningIngredients));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, kcal, sugarG, sodiumMg, fatG, proteinG);
+  int get hashCode => Object.hash(runtimeType, kcal, sugarG, sodiumMg, fatG,
+      proteinG, const DeepCollectionEquality().hash(_warningIngredients));
 
-  /// Create a copy of Nutrition
+  /// Create a copy of Ingredient
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$NutritionImplCopyWith<_$NutritionImpl> get copyWith =>
-      __$$NutritionImplCopyWithImpl<_$NutritionImpl>(this, _$identity);
+  _$$IngredientImplCopyWith<_$IngredientImpl> get copyWith =>
+      __$$IngredientImplCopyWithImpl<_$IngredientImpl>(this, _$identity);
 }
 
-abstract class _Nutrition implements Nutrition {
-  const factory _Nutrition(
+abstract class _Ingredient implements Ingredient {
+  const factory _Ingredient(
       {required final int kcal,
       required final double sugarG,
       required final double sodiumMg,
       required final double fatG,
-      required final double proteinG}) = _$NutritionImpl;
+      required final double proteinG,
+      required final List<String> warningIngredients}) = _$IngredientImpl;
 
   @override
   int get kcal;
@@ -491,12 +519,14 @@ abstract class _Nutrition implements Nutrition {
   double get fatG;
   @override
   double get proteinG;
+  @override
+  List<String> get warningIngredients;
 
-  /// Create a copy of Nutrition
+  /// Create a copy of Ingredient
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$NutritionImplCopyWith<_$NutritionImpl> get copyWith =>
+  _$$IngredientImplCopyWith<_$IngredientImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -508,8 +538,7 @@ mixin _$Review {
   double get stars => throw _privateConstructorUsedError;
   String get content => throw _privateConstructorUsedError;
   String? get photoUrl => throw _privateConstructorUsedError;
-  String? get dietType =>
-      throw _privateConstructorUsedError; // "비건","키토","일반","기타"
+  String? get dietType => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
 
   /// Create a copy of Review
@@ -699,7 +728,6 @@ class _$ReviewImpl implements _Review {
   final String? photoUrl;
   @override
   final String? dietType;
-// "비건","키토","일반","기타"
   @override
   final DateTime createdAt;
 
@@ -728,7 +756,8 @@ class _$ReviewImpl implements _Review {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, id, productId, author, stars, content, photoUrl, dietType, createdAt);
+  int get hashCode => Object.hash(runtimeType, id, productId, author, stars,
+      content, photoUrl, dietType, createdAt);
 
   /// Create a copy of Review
   /// with the given fields replaced by the non-null parameter values.
@@ -763,7 +792,7 @@ abstract class _Review implements Review {
   @override
   String? get photoUrl;
   @override
-  String? get dietType; // "비건","키토","일반","기타"
+  String? get dietType;
   @override
   DateTime get createdAt;
 

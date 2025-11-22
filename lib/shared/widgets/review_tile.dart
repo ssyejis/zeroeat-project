@@ -3,11 +3,15 @@ import 'package:zeroeat/models.dart';
 import 'package:zeroeat/config/theme.dart';
 
 
-class reviewTile extends StatelessWidget {
+class ReviewTile extends StatelessWidget {
   final Review review;
   final List<Widget> buildRatingStars;
 
-  const reviewTile({required this.review, required this.buildRatingStars});
+  const ReviewTile({
+    super.key,
+    required this.review,
+    required this.buildRatingStars
+  });
 
   @override
   Widget build(BuildContext context) {

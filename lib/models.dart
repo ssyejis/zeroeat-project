@@ -10,20 +10,21 @@ class Product with _$Product {
     required String brand,
     required String imageUrl,
     required double rating,
-    required Nutrition nutrition,
+    required Ingredient ingredient,
     required List<String> tags, // ["무설탕","저칼로리","키토"]
   }) = _Product;
 }
 
 @freezed
-class Nutrition with _$Nutrition {
-  const factory Nutrition({
+class Ingredient with _$Ingredient {
+  const factory Ingredient({
     required int kcal,
     required double sugarG,
     required double sodiumMg,
     required double fatG,
     required double proteinG,
-  }) = _Nutrition;
+    required List<String> warningIngredients
+  }) = _Ingredient;
 }
 
 @freezed
@@ -35,7 +36,7 @@ class Review with _$Review {
     required double stars,
     required String content,
     String? photoUrl,
-    String? dietType, // "비건","키토","일반","기타"
+    String? dietType,
     required DateTime createdAt,
   }) = _Review;
 }
@@ -47,12 +48,13 @@ final productDummyList = <Product>[
     brand: '펩시',
     imageUrl: 'assets/images/zeroCola.png',
     rating: 4.5,
-    nutrition: Nutrition(
+    ingredient: Ingredient(
       kcal: 15,
       sugarG: 0,
       sodiumMg: 5,
       fatG: 0,
       proteinG: 0,
+      warningIngredients: ['말티톨', '아스파탐'],
     ),
     tags: const ['무설탕', '제로칼로리'],
   ),
@@ -62,12 +64,13 @@ final productDummyList = <Product>[
     brand: '동원',
     imageUrl: 'assets/images/icedTea.png',
     rating: 4.2,
-    nutrition: Nutrition(
+    ingredient: Ingredient(
       kcal: 210,
       sugarG: 4.5,
       sodiumMg: 120,
       fatG: 6,
       proteinG: 18,
+      warningIngredients: ['아스파탐'],
     ),
     tags: const ['무설탕', '제로칼로리'],
   ),
@@ -77,12 +80,13 @@ final productDummyList = <Product>[
     brand: '라라스윗',
     imageUrl: 'assets/images/pintMilk.png',
     rating:0,
-    nutrition: Nutrition(
+    ingredient: Ingredient(
       kcal: 95,
       sugarG: 2.3,
       sodiumMg: 40,
       fatG: 3.5,
       proteinG: 8,
+      warningIngredients: [],
     ),
     tags: const ['저당', '프로바이오틱스', '저칼로리'],
   ),
@@ -92,12 +96,13 @@ final productDummyList = <Product>[
     brand: '베지밀',
     imageUrl: 'assets/images/soyMilk.png',
     rating: 4.8,
-    nutrition: Nutrition(
+    ingredient: Ingredient(
       kcal: 95,
       sugarG: 2.3,
       sodiumMg: 40,
       fatG: 3.5,
       proteinG: 8,
+      warningIngredients: ['아스파탐'],
     ),
     tags: const ['비건', '고단백', '저지방'],
   ),
@@ -107,12 +112,13 @@ final productDummyList = <Product>[
     brand: '널담',
     imageUrl: 'assets/images/bagel.png',
     rating: 4.8,
-    nutrition: Nutrition(
+    ingredient: Ingredient(
       kcal: 95,
       sugarG: 2.3,
       sodiumMg: 40,
       fatG: 3.5,
       proteinG: 8,
+      warningIngredients: ['말티톨'],
     ),
     tags: const ['저당', '고단백', '식사대용'],
   ),
@@ -122,12 +128,13 @@ final productDummyList = <Product>[
     brand: '켈로그',
     imageUrl: 'assets/images/granola.png',
     rating: 4.8,
-    nutrition: Nutrition(
+    ingredient: Ingredient(
       kcal: 95,
       sugarG: 2.3,
       sodiumMg: 40,
       fatG: 3.5,
       proteinG: 8,
+      warningIngredients: [],
     ),
     tags: const ['저당', '고단백', '식사대용'],
   ),
@@ -137,12 +144,13 @@ final productDummyList = <Product>[
     brand: '그린리브스',
     imageUrl: 'assets/images/soyMilk.png',
     rating: 4.8,
-    nutrition: Nutrition(
+    ingredient: Ingredient(
       kcal: 95,
       sugarG: 2.3,
       sodiumMg: 40,
       fatG: 3.5,
       proteinG: 8,
+      warningIngredients: [],
     ),
     tags: const ['비건', '프로바이오틱스', '저지방'],
   ),
@@ -152,12 +160,13 @@ final productDummyList = <Product>[
     brand: '그린리브스',
     imageUrl: 'assets/images/soyMilk.png',
     rating: 4.8,
-    nutrition: Nutrition(
+    ingredient: Ingredient(
       kcal: 95,
       sugarG: 2.3,
       sodiumMg: 40,
       fatG: 3.5,
       proteinG: 8,
+      warningIngredients: [],
     ),
     tags: const ['비건', '프로바이오틱스', '저지방'],
   ),

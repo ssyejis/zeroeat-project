@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:zeroeat/config/routes.dart';
-import 'package:zeroeat/features/community/review_page.dart';
+import 'package:zeroeat/features/review/review_page.dart';
 import 'package:zeroeat/models.dart';
 import 'package:zeroeat/services/dynamic_link_service.dart';
-import 'package:zeroeat/core/widgets/review_tile.dart';
-import 'package:zeroeat/core/widgets/rating_stars.dart';
+import 'package:zeroeat/shared/widgets/review_tile.dart';
+import 'package:zeroeat/shared/widgets/rating_stars.dart';
+import 'package:zeroeat/shared/widgets/review_button.dart';
+import 'package:zeroeat/shared/widgets/ingredient_card.dart';
 
 import 'package:zeroeat/config/theme.dart';
 
@@ -36,7 +37,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
-    final nutrition = product.nutrition;
+    final ingredient = product.ingredient;
 
     return Scaffold(
       backgroundColor: const Color(0xFFFDF6EC),
@@ -134,30 +135,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   color: const Color(0xFFF7EFE3),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      '성분 요약 카드',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF3E2F1C),
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      '칼로리 ${nutrition.kcal}Kcal / 당류 ${nutrition.sugarG}g / 나트륨 ${nutrition.sodiumMg}mg / 지방 ${nutrition.fatG}g / 단백질 ${nutrition.proteinG}g',
-                      style: const TextStyle(color: Color(0xFF2F5D50)),
-                    ),
-                    const SizedBox(height: 8),
-                    Wrap(
-                      spacing: 8,
-                      children: product.tags
-                          .map((tag) => Text('#$tag', style: TextStyle(fontSize: 12),))
-                          .toList(),
-                    ),
-                  ],
-                ),
+                child: IngredientCard(ingredient: ingredient)
               ),
               const SizedBox(height: 20),
               Row(
@@ -203,7 +181,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 itemCount: _reviews.length > 1 ? 2 : _reviews.length,
                 itemBuilder: (_, index) {
                   final review = _reviews[index];
-                  return reviewTile(
+                  return ReviewTile(
                     review: review,
                     buildRatingStars: ratingStars(review.stars, 16),
                   );
@@ -216,27 +194,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           ),
         ),
       ),
-      floatingActionButton: SizedBox(
-        height: 50,
-        child: FloatingActionButton.extended(
-          onPressed: () {
-            Navigator.of(context).pushNamed(ZeroEatRoutes.reviewForm);
-          },
-          backgroundColor: zeroEatTheme.colorScheme.primary,
-          icon: Icon( Icons.edit, color: Colors.white, size: 17,),
-          label: const Text(
-            '리뷰 작성',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-              fontSize: 14,
-            ),
-          ),
-          extendedPadding: const EdgeInsets.symmetric(
-            horizontal: 10,
-          ),
-        )
-      )
+      floatingActionButton: ReviewButton()
       ,
     );
   }

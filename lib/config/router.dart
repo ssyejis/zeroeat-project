@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import '../features/home/home_page.dart';
 import '../features/search/search_page.dart';
 import '../features/product/product_page.dart';
-import '../features/community/review_page.dart';
-import '../features/community/review_form.dart';
+import '../features/review/review_page.dart';
+import '../features/review/review_form.dart';
 import '../features/category/category_page.dart';
+import '../features/myInfo/favorite_page.dart';
 import '../models.dart';
 import 'routes.dart';
 
@@ -26,6 +27,11 @@ class ZeroEatRouter {
       case ZeroEatRoutes.search:
         return MaterialPageRoute<void>(
           builder: (_) => const SearchPage(),
+          settings: settings,
+        );
+      case ZeroEatRoutes.favorite:
+        return MaterialPageRoute<void>(
+          builder: (_) => const FavoritesPage(),
           settings: settings,
         );
       case ZeroEatRoutes.productDetail:

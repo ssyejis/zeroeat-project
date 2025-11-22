@@ -20,12 +20,10 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    // filter
     final filtered = topProducts
       .where((p) => p.name.toLowerCase().contains(query.toLowerCase()))
       .toList();
 
-    // sort according to selected mode
     if (_sort == SortMode.reviews) {
       filtered.sort((a, b) {
         final aCount = reviewDummyList.where((r) => r.productId == a.id).length;
@@ -47,6 +45,8 @@ class _SearchPageState extends State<SearchPage> {
         title: TextField(
           controller: _controller,
           decoration: InputDecoration(
+            isDense: true,
+            contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
             hintText: "제로 음료 검색",
             prefixIcon: const Icon(Icons.search),
             suffixIcon: IconButton(
@@ -123,7 +123,6 @@ class _SearchPageState extends State<SearchPage> {
                           itemBuilder: (ctx, i) {
                             final p = results[i];
                             return ListTile(
-                              leading: const Icon(Icons.local_drink, color: Colors.green),
                               title: Text(p.name),
                               subtitle: Wrap(
                                 spacing: 6,

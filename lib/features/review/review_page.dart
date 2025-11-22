@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:zeroeat/models.dart';
-import 'package:zeroeat/core/widgets/review_tile.dart';
-import 'package:zeroeat/core/widgets/rating_stars.dart';
+import 'package:zeroeat/shared/widgets/review_tile.dart';
+import 'package:zeroeat/shared/widgets/rating_stars.dart';
+import 'package:zeroeat/shared/widgets/review_button.dart';
 
 import 'package:zeroeat/config/theme.dart';
 
@@ -174,7 +175,7 @@ class _ReviewPageState extends State<ReviewPage> {
                 itemCount: _reviews.length,
                 itemBuilder: (_, index) {
                   final review = _reviews[index];
-                  return reviewTile(
+                  return ReviewTile(
                     review: review,
                     buildRatingStars: ratingStars(review.stars, 16),
                   );
@@ -188,25 +189,7 @@ class _ReviewPageState extends State<ReviewPage> {
           )
         )
       ),
-      floatingActionButton: SizedBox(
-        height: 50,
-        child: FloatingActionButton.extended(
-          onPressed: () {},
-          backgroundColor: zeroEatTheme.colorScheme.primary,
-          icon: Icon( Icons.edit, color: Colors.white, size: 17,),
-          label: const Text(
-            '리뷰 작성',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-              fontSize: 14,
-            ),
-          ),
-          extendedPadding: const EdgeInsets.symmetric(
-            horizontal: 10,
-          ),
-        )
-      )
+      floatingActionButton: ReviewButton()
     );
   }
 }
