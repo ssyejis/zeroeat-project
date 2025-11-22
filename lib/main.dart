@@ -21,6 +21,7 @@ class ZeroEatApp extends StatelessWidget {
       themeMode: ThemeMode.system,
       onGenerateRoute: ZeroEatRouter.onGenerateRoute,
       initialRoute: ZeroEatRouter.initialRoute,
+      debugShowCheckedModeBanner: false
     );
   }
 }

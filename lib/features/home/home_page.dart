@@ -52,6 +52,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFFFDF6EC),
+        automaticallyImplyLeading: false,
         title: Row(
           children: [
             const Text(
@@ -174,11 +175,11 @@ class _HomePageState extends State<HomePage> {
           } else if (index == 2) {
             Navigator.of(context).pushNamed(ZeroEatRoutes.favorite);
           } else if (index == 3) {
-            Navigator.of(context).pushNamed(ZeroEatRoutes.search);
+            Navigator.of(context).pushNamed(ZeroEatRoutes.myPage);
           }
 
         },
-        selectedItemColor: Colors.green,
+        selectedItemColor: Colors.grey,
         unselectedItemColor: Colors.grey,
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),

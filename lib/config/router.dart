@@ -7,6 +7,7 @@ import '../features/review/review_page.dart';
 import '../features/review/review_form.dart';
 import '../features/category/category_page.dart';
 import '../features/myInfo/favorite_page.dart';
+import '../features/myInfo/my_page.dart';
 import '../models.dart';
 import 'routes.dart';
 
@@ -32,6 +33,11 @@ class ZeroEatRouter {
       case ZeroEatRoutes.favorite:
         return MaterialPageRoute<void>(
           builder: (_) => const FavoritesPage(),
+          settings: settings,
+        );
+      case ZeroEatRoutes.myPage:
+        return MaterialPageRoute<void>(
+          builder: (_) => const MyPage(),
           settings: settings,
         );
       case ZeroEatRoutes.productDetail:
