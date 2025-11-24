@@ -76,8 +76,8 @@ class _HomePageState extends State<HomePage> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          SizedBox(
-            height: 300,
+          AspectRatio(
+            aspectRatio: 1536/1024,
             child: PageView.builder(
               controller: _pageController,
               itemBuilder: (context, index) {
@@ -281,9 +281,8 @@ class _HomeBanner extends StatelessWidget {
       borderRadius: BorderRadius.circular(12),
       child: Image.network(
         bannerUrl,
-        height: 100,
-        width: 100,
-        fit: BoxFit.contain,
+        width: double.infinity,
+        fit: BoxFit.fitWidth,
         errorBuilder: (context, error, stackTrace) => Icon(
           Icons.local_cafe,
           size: 60,
