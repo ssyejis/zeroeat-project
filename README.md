@@ -1,1 +1,3 @@
-# 이론상으로 제로먹기는 불가능
+flutter pub get
+
+flutter run
