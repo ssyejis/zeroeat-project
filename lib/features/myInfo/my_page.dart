@@ -81,7 +81,7 @@ class _MyPageState extends State<MyPage> {
                               borderRadius: BorderRadius.circular(12),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black.withOpacity(alpha: 0.2),
+                                  color: Colors.black.withOpacity(0.2),
                                   spreadRadius: 1,
                                   blurRadius: 3,
                                   offset: const Offset(0, 1),
