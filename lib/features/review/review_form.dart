@@ -246,7 +246,6 @@ class _ReviewFormState extends State<ReviewForm> {
         )
         
       ),
-      bottomNavigationBar: BottomNavigation(),
     );
   }
 }

@@ -30,17 +30,19 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    timer = Timer.periodic(const Duration(seconds: 3), (_) {
-      _pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      timer = Timer.periodic(const Duration(seconds: 3), (_) {
+        if (_pageController.hasClients) {
+        _pageController.nextPage(duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+        }
+      });
     });
   }
 
   @override
   void dispose() {
     _pageController.dispose();
-    if (timer != null) {
-      timer!.cancel();
-    }
+    timer?.cancel();
     super.dispose();
   }
 
