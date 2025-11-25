@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:zeroeat/features/review/review_page.dart';
 import 'package:zeroeat/models.dart';
 import 'package:zeroeat/services/dynamic_link_service.dart';
-import 'package:zeroeat/shared/widgets/review_tile.dart';
-import 'package:zeroeat/shared/widgets/rating_stars.dart';
-import 'package:zeroeat/shared/widgets/review_button.dart';
-import 'package:zeroeat/shared/widgets/ingredient_card.dart';
+import 'package:zeroeat/shared/widgets/tiles/review_tile.dart';
+import 'package:zeroeat/shared/widgets/indicators/rating_stars.dart';
+import 'package:zeroeat/shared/widgets/buttons/review_button.dart';
+import 'package:zeroeat/shared/widgets/cards/ingredient_card.dart';
+import 'package:zeroeat/shared/widgets/navigation/bottom_navigation_bar.dart';
 
 import 'package:zeroeat/config/routes.dart';
 import 'package:zeroeat/config/theme.dart';
@@ -195,31 +196,8 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           ),
         ),
       ),
-      floatingActionButton: ReviewButton()
-      ,
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.of(context).pushNamed(ZeroEatRoutes.home);
-          } else if (index == 1) {
-            Navigator.of(context).pushNamed(ZeroEatRoutes.search);
-          } else if (index == 2) {
-            Navigator.of(context).pushNamed(ZeroEatRoutes.favorite);
-          } else if (index == 3) {
-            Navigator.of(context).pushNamed(ZeroEatRoutes.myPage);
-          }
-
-        },
-        selectedItemColor: Colors.grey,
-        unselectedItemColor: Colors.grey,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: '검색'),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: '찜목록'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: '마이페이지'),
-        ],
-      ),
+      floatingActionButton: ReviewButton(),
+      bottomNavigationBar: BottomNavigation(),
     );
   }
 }

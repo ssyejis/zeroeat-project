@@ -1,11 +1,9 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-
 import 'package:zeroeat/config/routes.dart';
 import 'package:zeroeat/models.dart';
-
 import 'package:zeroeat/config/theme.dart';
+import 'package:zeroeat/shared/widgets/navigation/bottom_navigation_bar.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -165,29 +163,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        onTap: (index) {
-          if (index == 0) {
-            Navigator.of(context).pushNamed(ZeroEatRoutes.home);
-          } else if (index == 1) {
-            Navigator.of(context).pushNamed(ZeroEatRoutes.search);
-          } else if (index == 2) {
-            Navigator.of(context).pushNamed(ZeroEatRoutes.favorite);
-          } else if (index == 3) {
-            Navigator.of(context).pushNamed(ZeroEatRoutes.myPage);
-          }
-
-        },
-        selectedItemColor: Colors.grey,
-        unselectedItemColor: Colors.grey,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: '홈'),
-          BottomNavigationBarItem(icon: Icon(Icons.search), label: '검색'),
-          BottomNavigationBarItem(icon: Icon(Icons.favorite), label: '찜목록'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: '마이페이지'),
-        ],
-      ),
+      bottomNavigationBar: BottomNavigation(),
 
     );
   }
