@@ -117,7 +117,7 @@ class _MyPageState extends State<MyPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: const [
                               Text(
-                                '유저 이름',
+                                '서예지',
                                 style: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
